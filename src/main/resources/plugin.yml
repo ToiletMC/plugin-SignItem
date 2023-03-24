@@ -1,0 +1,4 @@
+name: SignItem
+version: '${project.version}'
+main: net.toiletmc.signitem.SignItem
+api-version: 1.19
