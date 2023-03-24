@@ -1,4 +1,11 @@
 name: SignItem
 version: '${project.version}'
 main: net.toiletmc.signitem.SignItem
+authors: [ TheLittle_Yang ]
+website: https://toiletmc.net
 api-version: 1.19
+commands:
+  sign:
+    permission: signitem.command.sign
+  unsign:
+    permission: signitem.command.unsign

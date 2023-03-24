@@ -1,17 +1,14 @@
 package net.toiletmc.signitem.commands;
 
 import net.toiletmc.signitem.SignItem;
+import net.toiletmc.signitem.util.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandSign implements CommandExecutor {
@@ -26,8 +23,11 @@ public class CommandSign implements CommandExecutor {
 
         if (strings.length == 0) {
             if (commandSender instanceof Player) {
-                Player player = (Player) commandSender;
+                if (!commandSender.hasPermission("signitem.command.sign")) {
+                    commandSender.sendMessage(ChatColor.RED + "未知的命令");
+                }
 
+                Player player = (Player) commandSender;
                 ItemStack items = player.getInventory().getItemInMainHand();
 
                 if (items.getType() == Material.AIR) {
@@ -35,16 +35,13 @@ public class CommandSign implements CommandExecutor {
                     return true;
                 }
 
-                NamespacedKey key = new NamespacedKey(plugin, "signitem");
-
-                ItemMeta itemMeta = items.getItemMeta();
-                PersistentDataContainer dataContainer = itemMeta.getPersistentDataContainer();
-                if (dataContainer.has(key)) {
+                if (Util.isSigned(items)) {
                     commandSender.sendMessage(ChatColor.RED + "签名失败，因为物品已被签名！");
                     return true;
                 }
-                dataContainer.set(key, PersistentDataType.BYTE, (byte) 1);
-                items.setItemMeta(itemMeta);
+
+                Util.addSign(items, ((Player) commandSender).getUniqueId());
+                commandSender.sendMessage("签名成功！");
                 return true;
 
             } else {
