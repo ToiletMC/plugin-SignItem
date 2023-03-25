@@ -30,6 +30,6 @@ public class Util {
     }
 
     public static NamespacedKey getSignerKey() {
-        return new NamespacedKey(SignItem.getIntense(), "signer");
+        return new NamespacedKey(SignItem.getInstance(), "signer");
     }
 }

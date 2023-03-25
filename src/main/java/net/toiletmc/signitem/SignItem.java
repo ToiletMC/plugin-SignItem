@@ -4,11 +4,11 @@ import net.toiletmc.signitem.commands.CommandSign;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SignItem extends JavaPlugin {
-    private static SignItem intense;
+    private static SignItem instance;
 
     @Override
     public void onEnable() {
-        intense = this;
+        instance = this;
         getCommand("sign").setExecutor(new CommandSign(this));
     }
 
@@ -17,7 +17,7 @@ public final class SignItem extends JavaPlugin {
 
     }
 
-    public static SignItem getIntense() {
-        return intense;
+    public static SignItem getInstance() {
+        return instance;
     }
 }
